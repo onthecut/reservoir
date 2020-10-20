@@ -1,66 +1,73 @@
-const playwright = require('playwright');
+const playwright = require("playwright");
 
 /**
  * Scrape a notice page.
  */
-async function getNotice (url) {
-    const browser = await playwright['chromium'].launch({
-        headless: false, slowMo: 50 
-    });
+async function getNotice(url) {
+  const browser = await playwright["chromium"].launch({
+    headless: process.env.DEBUG ? false : undefined,
+    slowMo: process.env.DEBUG ? 50 : undefined,
+  });
 
-    const context = await browser.newContext();
+  const context = await browser.newContext();
 
-    const page = await context.newPage();
-    await page.goto(url);
+  const page = await context.newPage();
+  await page.goto(url);
 
-    const notice = await page.evaluate(() => {
-        const notice = {
-            title: document.getElementsByClassName('text-header-headline')[0].innerText,
-            href: window.location.href
-        }
-        
-        for (const panel of document.getElementsByClassName('panel-contact')) {
-            const panelHeading = panel.getElementsByClassName('heading')[0].innerText;
-            const panelHeadingLower = panelHeading.toLowerCase();
+  const notice = await page.evaluate(() => {
+    const notice = {
+      title: document.getElementsByClassName("text-header-headline")[0]
+        .innerText,
+      href: window.location.href,
+    };
 
-            notice[panelHeadingLower] = {};
+    for (const panel of document.getElementsByClassName("panel-contact")) {
+      const panelHeading = panel.getElementsByClassName("heading")[0].innerText;
+      const panelHeadingLower = panelHeading.toLowerCase();
 
-            switch (panelHeadingLower) {
-                case 'detail':
-                case 'location':
-                    for (const para of panel.getElementsByTagName('p')) {
-                        const boldText = para.children[0].innerText.trim();
-                        const bodyText = para.innerText.substr(boldText.length).trim();
+      notice[panelHeadingLower] = {};
 
-                        notice[panelHeadingLower][boldText] = bodyText;
-                    }
+      switch (panelHeadingLower) {
+        case "detail":
+        case "location":
+          for (const para of panel.getElementsByTagName("p")) {
+            let boldText = para.children[0].innerText.trim();
 
-                    break;
+            // Remove ending ':'.
+            boldText = boldText.substring(0, boldText.length - 1);
 
-                case 'updates':
-                case 'description':
+            const bodyText = para.innerText.substr(boldText.length).trim();
 
-                    break;
-            }
-        }
+            notice[panelHeadingLower][boldText] = bodyText;
+          }
 
-        return notice;
-    });
+          break;
 
-    await browser.close();
+        case "updates":
+        case "description":
+          break;
+      }
+    }
 
     return notice;
-};
+  });
+
+  await browser.close();
+
+  return notice;
+}
 
 /**
  * Scrape the notices list.
  */
-async function getNotices () {
+async function getNotices() {}
 
-};
-
-getNotice('https://canalrivertrust.org.uk/notices/18561-river-severn-carrington-road-bridge').then(data => {
-    console.log('data:', data);
-}).catch((error) => {
-    console.error(error)
-})
+getNotice(
+  "https://canalrivertrust.org.uk/notices/18561-river-severn-carrington-road-bridge"
+)
+  .then((data) => {
+    console.log("data:", data);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
