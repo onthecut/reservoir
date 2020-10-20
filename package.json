@@ -1,0 +1,14 @@
+{
+  "name": "onthecut",
+  "version": "0.0.0",
+  "description": "",
+  "main": " ",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "UNLICENCED",
+  "dependencies": {
+    "playwright": "^1.5.0"
+  }
+}
