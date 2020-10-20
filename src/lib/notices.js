@@ -1,13 +1,29 @@
-const playwright = require("playwright");
+import { chromium } from "playwright";
 
 /**
- * Scrape a notice page.
+ * Options passed to chromium.launch(). Disables headless mode when DEBUG
+ * environment variable's set.
  */
-async function getNotice(url) {
-  const browser = await playwright["chromium"].launch({
-    headless: process.env.DEBUG ? false : undefined,
-    slowMo: process.env.DEBUG ? 50 : undefined,
-  });
+const browserLaunchOptions = {
+  headless: process.env.DEBUG ? false : undefined,
+  slowMo: process.env.DEBUG ? 50 : undefined,
+};
+
+/**
+ * Load and scrape data from a CRT Notice page given it's URL.
+ *
+ * Example:
+ *
+ *    const notice = await getNotice(
+ *      'https://canalrivertrust.org.uk/notices/18561-river-severn-carrington-road-bridge'
+ *    );
+ */
+export async function getNotice(url) {
+  if (!url) {
+    throw new Error("Missing Notice URL");
+  }
+
+  const browser = await chromium.launch(browserLaunchOptions);
 
   const context = await browser.newContext();
 
@@ -52,22 +68,59 @@ async function getNotice(url) {
     return notice;
   });
 
+  notice.id = new URL(notice.href).pathname.split("/")[2].split("-")[0];
+
   await browser.close();
 
   return notice;
 }
 
 /**
- * Scrape the notices list.
+ * Gather a list of all notice summaries from CRT Notices.
+ *
+ * Example:
+ *
+ *     (await getNotices()).forEach(notice => {
+ *       console.log(`${notice.name} - ${notice.href}`)
+ *     });
+ *
+ * Returns:
+ *
+ *     [
+ *       {
+ *         endAt: null
+ *         endDate: null,
+ *         headline: "Boston Lock",
+ *         noticeType: 7,
+ *         path: "/notices/14494-boston-lock",
+ *         startAt: null,
+ *         startDate: "2018-11-01T00:00:00",
+ *         towpathClosed: false
+ *       }
+ *     ]
+ *
  */
-async function getNotices() {}
+export async function getNotices() {
+  const browser = await chromium.launch(browserLaunchOptions);
+  const context = await browser.newContext();
 
-getNotice(
-  "https://canalrivertrust.org.uk/notices/18561-river-severn-carrington-road-bridge"
-)
-  .then((data) => {
-    console.log("data:", data);
-  })
-  .catch((error) => {
-    console.error(error);
+  const page = await context.newPage();
+  await page.goto("https://canalrivertrust.org.uk/notices");
+
+  const notices = (
+    await page.evaluate(() => {
+      return window.crt.component[5].data;
+    })
+  ).map((notice) => {
+    notice.href = new URL(
+      notice.path,
+      "https://canalrivertrust.org.uk/notices"
+    ).href;
+
+    return notice;
   });
+
+  await browser.close();
+
+  return notices;
+}
