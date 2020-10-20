@@ -4,12 +4,18 @@
   "description": "",
   "main": " ",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --experimental-modules src/reservoir.js",
+    "update-open-data": "node --experimental-modules src/tasks/update-open-data.js",
+    "update-notices": "node --experimental-modules src/tasks/update-notices.js"
   },
   "type": "module",
   "author": "",
   "license": "UNLICENCED",
   "dependencies": {
+    "@onthecut/crt-open-data": "^1.0.0",
+    "axios": "^0.20.0",
+    "express": "^4.17.1",
     "playwright": "^1.5.0"
   }
 }

@@ -1,30 +1,26 @@
-import { getNotice, getNotices } from "./lib/notices.js";
-import { existsSync, mkdirSync, promises as fs } from "fs";
-import { resolve } from "path";
+import { PORT } from "./lib/base.js";
+import express from "express";
+import { index } from "./routes/index.js";
+import {
+  index as openDataIndex,
+  read as openDataRead,
+} from "./routes/open-data.js";
+import {
+  index as noticesIndex,
+  read as noticesRead,
+} from "./routes/notices.js";
 
-const DATA_PATH = resolve(process.cwd(), "data/");
-const NOTICE_DATA_PATH = resolve(DATA_PATH, "notices/");
+const app = express();
 
-(async () => {
-  console.log("[RESERVOIR] Creating data folders if doesn't exist");
-  for (const path of [DATA_PATH, NOTICE_DATA_PATH]) {
-    if (!existsSync(path)) {
-      mkdirSync(path);
-    }
-  }
+app.set("json spaces", 2);
+app.disable("x-powered-by");
 
-  console.log("[CRT-NOTICES] Gathering Notice Results");
-  const notices = await getNotices();
+app.get("/", index);
+app.get("/notices", noticesIndex);
+app.get("/notices/:name", noticesRead);
+app.get("/datasets", openDataIndex);
+app.get("/datasets/:name", openDataRead);
 
-  for (const { href } of notices) {
-    console.log(`[CRT-NOTICES] Parsing ${href}`);
-    const notice = await getNotice(href);
-
-    notice._refreshed = new Date();
-
-    await fs.writeFile(
-      resolve(NOTICE_DATA_PATH, notice.id + ".json"),
-      JSON.stringify(notice, null, 2)
-    );
-  }
-})();
+app.listen(PORT, () => {
+  console.log(`[RESERVOIR] Listening on http://0.0.0.0:${PORT}`);
+});
