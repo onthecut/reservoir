@@ -1,6 +1,6 @@
-# @onthecut/reservoir
+# Reservoir
 
-> Data Reservoir sourced by CRT Open Data, CRT Notices and OpenStreetMap. Providing a stream of clean and nutrient data APIs.
+> Reservoir sourced by CRT Open Data, CRT Notices and OpenStreetMap. Providing a stream of clean and nutrient data APIs.
 
 ## API
 
