@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --experimental-modules src/reservoir.js",
+    "import-crt-waterways": "node --experimental-modules src/tasks/import-crt-waterways.js",
     "update-open-data": "node --experimental-modules src/tasks/update-open-data.js",
     "update-notices": "node --experimental-modules src/tasks/update-notices.js"
   },
@@ -16,6 +17,7 @@
     "@onthecut/crt-open-data": "^1.0.0",
     "axios": "^0.20.0",
     "express": "^4.17.1",
-    "playwright": "^1.5.0"
+    "playwright": "^1.5.0",
+    "slonik": "^23.0.0"
   }
 }
