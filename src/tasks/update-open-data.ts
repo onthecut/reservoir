@@ -1,13 +1,17 @@
-import { OPEN_DATA_PATH } from "../lib/base.js";
+import { OPEN_DATA_PATH } from "../lib/base";
 import { promises as fs } from "fs";
 import { resolve } from "path";
-import { DATASETS } from "../lib/open-data.js";
+import { DATASETS } from "../lib/open-data";
 import Axios from "axios";
+
+interface Datasets {
+  [key: string]: string;
+}
 
 (async () => {
   console.log("[CRT-DATA] Refreshing Open Data");
   for (const name in DATASETS) {
-    const url = DATASETS[name];
+    const url = (DATASETS as Datasets)[name];
 
     console.error(`[CRT-DATA] Retrieving ${name}`);
     const response = await Axios.get(url, {
