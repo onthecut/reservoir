@@ -5,7 +5,10 @@ import { resolve } from "path";
 
 (async () => {
   console.log("[CRT-NOTICES] Gathering Notice Results");
-  const notices = await getNotices();
+
+  const notices = await getNotices({
+    args: ["--no-sandbox"],
+  });
 
   await fs.writeFile(
     resolve(NOTICE_DATA_PATH, "index.json"),
@@ -16,8 +19,6 @@ import { resolve } from "path";
     for (const { href } of notices) {
       console.log(`[CRT-NOTICES] Parsing ${href}`);
       const notice = await getNotice(href);
-
-      notice._refreshed = new Date();
 
       await fs.writeFile(
         resolve(NOTICE_DATA_PATH, notice.id + ".json"),

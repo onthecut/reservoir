@@ -1,5 +1,4 @@
 import { promises as fs } from "fs";
-import { basename } from "path";
 import { NOTICE_DATA_PATH } from "../lib/base";
 import { Request, Response } from "express";
 import { resolve } from "path";
