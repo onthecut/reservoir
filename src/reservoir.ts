@@ -1,15 +1,15 @@
-import { PORT } from "./lib/base.js";
+import { PORT } from "./lib/base";
 import express from "express";
-import { index } from "./routes/index.js";
+import { index } from "./routes/index";
 import {
   index as openDataIndex,
   read as openDataRead,
-} from "./routes/open-data.js";
+} from "./routes/open-data";
 import {
   index as noticesIndex,
   read as noticesRead,
-} from "./routes/notices.js";
-import { index as waterwaysIndex } from "./routes/waterways.js";
+} from "./routes/notices";
+import { index as waterwaysIndex } from "./routes/waterways";
 
 const app = express();
 
