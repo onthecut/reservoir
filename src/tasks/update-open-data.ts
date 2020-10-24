@@ -10,24 +10,25 @@ interface Datasets {
 
 (async () => {
   console.log("[CRT-DATA] Refreshing Open Data");
-  for (const name in DATASETS) {
-    const url = (DATASETS as Datasets)[name];
+  // for (const name in DATASETS) {
+  const name = "canals";
+  const url = (DATASETS as Datasets)[name];
 
-    console.error(`[CRT-DATA] Retrieving ${name}`);
-    const response = await Axios.get(url, {
-      timeout: 20 * 1000,
-    });
+  console.error(`[CRT-DATA] Retrieving ${name}`);
+  const response = await Axios.get(url, {
+    timeout: 20 * 1000,
+  });
 
-    if (response.data.type == "FeatureCollection") {
-      await fs.writeFile(
-        resolve(OPEN_DATA_PATH, `${name}.geojson`),
-        JSON.stringify(response.data, null, 2)
-      );
-    } else {
-      console.error(
-        `[CRT-DATA] Invalid GeoJSON response for ${name}`,
-        response.data
-      );
-    }
+  if (response.data.type == "FeatureCollection") {
+    await fs.writeFile(
+      resolve(OPEN_DATA_PATH, `${name}.geojson`),
+      JSON.stringify(response.data, null, 2)
+    );
+  } else {
+    console.error(
+      `[CRT-DATA] Invalid GeoJSON response for ${name}`,
+      response.data
+    );
   }
+  // }
 })();
