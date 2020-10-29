@@ -1,6 +1,7 @@
 import { PORT } from "./lib/base";
 import express from "express";
 import cors from "cors";
+import compression from "compression";
 import { index } from "./routes/index";
 import {
   index as openDataIndex,
@@ -19,6 +20,7 @@ const app = express();
 app.set("json spaces", 2);
 app.disable("x-powered-by");
 
+app.use(compression());
 app.use(cors());
 
 app.get("/", index);
