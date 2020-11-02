@@ -5,8 +5,7 @@
   "main": " ",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run update-open-data && npm run update-notices && npm run serve",
-    "serve": "ts-node src/reservoir.ts",
+    "start": "ts-node src/reservoir.ts",
     "import-crt-waterways": "ts-node src/tasks/import-crt-waterways.ts",
     "update-open-data": "ts-node src/tasks/update-open-data.ts",
     "update-notices": "ts-node src/tasks/update-notices.ts"
