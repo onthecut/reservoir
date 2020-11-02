@@ -1,11 +1,5 @@
-import { readFileSync } from "fs";
-import { resolve } from "path";
-import { OPEN_DATA_PATH } from "../lib/base";
 import { Request, Response } from "express";
-
-const waterways = JSON.parse(
-  readFileSync(resolve(OPEN_DATA_PATH, "canals.geojson"), "utf-8")
-);
+import { get } from "../lib/redis";
 
 interface CRTCanalFeatures {
   properties: {
@@ -19,6 +13,12 @@ interface CRTCanalDataset {
 }
 
 export const index = async (req: Request, res: Response) => {
+  const waterways = JSON.parse(
+    (await get("/datasets/canals.geojson")) as string
+  );
+
+  console.log(waterways);
+
   res.json(
     (waterways as CRTCanalDataset).features
       .filter((canal) => canal.properties.SAP_CANAL_ID !== null)
