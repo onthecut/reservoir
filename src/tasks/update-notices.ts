@@ -1,7 +1,6 @@
 import { NOTICE_DATA_PATH } from "../lib/base";
 import { getNotice, getNotices } from "@onthecut/crt-notice-scraper";
-import { promises as fs } from "fs";
-import { resolve } from "path";
+import { redis, set } from "../lib/redis";
 
 (async () => {
   console.log("[CRT-NOTICES] Gathering Notice Results");
@@ -10,20 +9,18 @@ import { resolve } from "path";
     args: ["--no-sandbox"],
   });
 
-  await fs.writeFile(
-    resolve(NOTICE_DATA_PATH, "index.json"),
-    JSON.stringify(notices, null, 2)
-  );
+  console.log("[CRT-NOTICES] Saving to Redis");
+  await set("/notices", JSON.stringify(notices, null, 2));
+  console.log("[CRT-NOTICES] Stored");
 
   if (process.env.NOTICES_EXTENDED) {
     for (const { href } of notices) {
       console.log(`[CRT-NOTICES] Parsing ${href}`);
       const notice = await getNotice(href);
 
-      await fs.writeFile(
-        resolve(NOTICE_DATA_PATH, notice.id + ".json"),
-        JSON.stringify(notice, null, 2)
-      );
+      await set(`/notices/${notice.id}`, JSON.stringify(notice, null, 2));
     }
   }
+
+  redis.quit();
 })();

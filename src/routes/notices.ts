@@ -1,15 +1,11 @@
-import { promises as fs } from "fs";
-import { NOTICE_DATA_PATH } from "../lib/base";
 import { Request, Response } from "express";
-import { resolve } from "path";
 import polyline from "@mapbox/polyline";
 import geobuf from "geobuf";
 import Pbf from "pbf";
+import { get } from "../lib/redis";
 
 const readNotices = async () => {
-  return JSON.parse(
-    await fs.readFile(resolve(NOTICE_DATA_PATH, "index.json"), "utf8")
-  );
+  return JSON.parse((await get("/notices")) as string);
 };
 
 interface NoticeSummary {

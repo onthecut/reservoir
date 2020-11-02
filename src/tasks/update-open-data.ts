@@ -1,8 +1,6 @@
-import { OPEN_DATA_PATH } from "../lib/base";
-import { promises as fs } from "fs";
-import { resolve } from "path";
 import { DATASETS } from "../lib/open-data";
 import Axios from "axios";
+import { redis, set } from "../lib/redis";
 
 interface Datasets {
   [key: string]: string;
@@ -20,8 +18,8 @@ interface Datasets {
   });
 
   if (response.data.type == "FeatureCollection") {
-    await fs.writeFile(
-      resolve(OPEN_DATA_PATH, `${name}.geojson`),
+    await set(
+      `/datasets/${name}.geojson`,
       JSON.stringify(response.data, null, 2)
     );
   } else {
@@ -30,5 +28,7 @@ interface Datasets {
       response.data
     );
   }
+
+  redis.quit();
   // }
 })();
