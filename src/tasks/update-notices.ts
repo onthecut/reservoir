@@ -1,4 +1,3 @@
-import { NOTICE_DATA_PATH } from "../lib/base";
 import { getNotice, getNotices } from "@onthecut/crt-notice-scraper";
 import { redis, set } from "../lib/redis";
 
