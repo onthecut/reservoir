@@ -19,7 +19,7 @@
     "@types/compression": "^1.7.1",
     "@types/cors": "^2.8.11",
     "@types/express": "^4.17.13",
-    "@types/geobuf": "^3.0.0",
+    "@types/geobuf": "^3.0.1",
     "@types/mapbox__polyline": "^1.0.2",
     "@types/pbf": "^3.0.2",
     "@types/redis": "^2.8.31",
