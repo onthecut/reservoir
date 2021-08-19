@@ -31,7 +31,7 @@
     "pbf": "^3.2.1",
     "redis": "^3.1.2",
     "slonik": "^24.0.0",
-    "ts-node": "^10.2.0",
+    "ts-node": "^10.2.1",
     "typescript": "^4.3.5"
   },
   "devDependencies": {
