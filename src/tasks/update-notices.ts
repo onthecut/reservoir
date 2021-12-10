@@ -4,9 +4,7 @@ import { redis, set } from "../lib/redis";
 (async () => {
   console.log("[CRT-NOTICES] Gathering Notice Results");
 
-  const notices = await getNotices({
-    args: ["--no-sandbox"],
-  });
+  const notices = await getNotices();
 
   console.log("[CRT-NOTICES] Saving to Redis");
   await set("/notices", JSON.stringify(notices, null, 2));
