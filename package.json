@@ -13,7 +13,7 @@
   "author": "",
   "license": "UNLICENCED",
   "dependencies": {
-    "@mapbox/polyline": "^1.1.1",
+    "@mapbox/polyline": "^1.2.0",
     "@onthecut/crt-notice-scraper": "^2.1.8",
     "@onthecut/crt-open-data": "^1.0.0",
     "@types/compression": "^1.7.2",
