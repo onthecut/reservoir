@@ -16,7 +16,7 @@
     "@mapbox/polyline": "^1.2.0",
     "@onthecut/crt-notice-scraper": "^2.1.8",
     "@onthecut/crt-open-data": "^1.0.0",
-    "@types/compression": "^1.7.2",
+    "@types/compression": "^1.7.3",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/geobuf": "^3.0.1",
