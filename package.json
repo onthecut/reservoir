@@ -23,7 +23,7 @@
     "@types/mapbox__polyline": "^1.0.3",
     "@types/pbf": "^3.0.3",
     "@types/redis": "^4.0.11",
-    "axios": "^1.5.1",
+    "axios": "^1.6.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "express": "^4.18.2",
