@@ -18,7 +18,7 @@
     "@onthecut/crt-open-data": "^1.0.0",
     "@types/compression": "^1.7.3",
     "@types/cors": "^2.8.17",
-    "@types/express": "^4.17.18",
+    "@types/express": "^4.17.21",
     "@types/geobuf": "^3.0.4",
     "@types/mapbox__polyline": "^1.0.3",
     "@types/pbf": "^3.0.5",
