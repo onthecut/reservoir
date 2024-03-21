@@ -32,7 +32,7 @@
     "redis": "^4.6.13",
     "slonik": "^37.2.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   },
   "devDependencies": {
     "prettier": "^3.2.5"
